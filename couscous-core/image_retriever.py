@@ -2,6 +2,7 @@ import requests
 from argparse import ArgumentParser
 import os
 
+
 def main():
     parser = ArgumentParser()
     parser.add_argument("-i", "--image", help="Image URL", required=True)
@@ -16,6 +17,14 @@ def main():
     print(args.image)
     print(destination_dir)
     getImage(args.image, destination_dir)
+    getScreen(args.image, destination_dir)
+
+def extension():
+    extension = 'png'
+    if getImage(args.image).endswith((extension)):
+        getImage(image_url, local_dest)
+    if not getImage(args.image).endswith((extension)):
+        getScreen()
 
 def getImage(image_url, local_dest):
     # URL of the image to be downloaded is defined as image_url
@@ -34,3 +43,6 @@ def getImage(image_url, local_dest):
 
 if __name__ == "__main__":
     main()
+
+def getScreen(image_url, local_dest):
+    print(image_url)
