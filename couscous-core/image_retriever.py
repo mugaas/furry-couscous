@@ -1,6 +1,9 @@
 import requests
 from argparse import ArgumentParser
 import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options  
+from selenium.webdriver.common.keys import Keys
 
 
 def main():
@@ -16,15 +19,13 @@ def main():
         os.makedirs(destination_dir)
     print(args.image)
     print(destination_dir)
-    getImage(args.image, destination_dir)
-    getScreen(args.image, destination_dir)
+    extension(args.image, destination_dir)
 
-def extension():
-    extension = 'png'
-    if getImage(args.image).endswith((extension)):
+def extension(image_url, local_dest):
+    if image_url.endswith(('.jpg', '.jpeg', '.png')):
         getImage(image_url, local_dest)
-    if not getImage(args.image).endswith((extension)):
-        getScreen()
+    else: 
+        getScreen(image_url, local_dest)
 
 def getImage(image_url, local_dest):
     # URL of the image to be downloaded is defined as image_url
@@ -41,8 +42,22 @@ def getImage(image_url, local_dest):
         f.write(r.content)
     return full_file_path
 
+def getScreen(image_url, local_dest):
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument("--test-type")
+    #options.binary_location = "$PATH/chromedriver"
+    
+    driver = webdriver.Chrome(chrome_options=options)
+    driver.get(image_url)
+    
+    newname = ('screenshot.png')
+    full_file_path = os.path.join(local_dest, newname)
+    
+    driver.save_screenshot(full_file_path)
+    driver.close()
+
 if __name__ == "__main__":
     main()
 
-def getScreen(image_url, local_dest):
-    print(image_url)
+    
