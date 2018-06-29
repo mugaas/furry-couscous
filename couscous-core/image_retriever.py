@@ -22,7 +22,7 @@ def main():
     extension(args.image, destination_dir)
 
 def extension(image_url, local_dest):
-    if image_url.endswith(('.jpg', '.jpeg', '.png')):
+    if image_url.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
         getImage(image_url, local_dest)
     else: 
         getScreen(image_url, local_dest)
